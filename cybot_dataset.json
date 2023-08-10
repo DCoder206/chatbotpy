@@ -1,0 +1,34 @@
+{
+    "intents": [
+        {
+            "tag": "greeting",
+            "description": "Chatbot greetings",
+            "patterns": ["Hi", "Hello", "Hey", "Greetings"],
+            "responses": ["Hi there!", "Hello!", "Hey! How can I help you?"]
+        },
+        {
+            "tag": "goodbye",
+            "description": "Chatbot goodbyes",
+            "patterns": ["Goodbye", "See you later", "Bye"],
+            "responses": ["Goodbye! Have a great day!", "See you later!", "Farewell!"]
+        },
+        {
+            "tag": "age",
+            "description": "Asking for age",
+            "patterns": ["How old are you?", "What's your age?", "When were you born?"],
+            "responses": ["I am a computer program, so I don't have an age.", "I don't age like humans do."]
+        },
+        {
+            "tag": "weather",
+            "description": "Asking about the weather",
+            "patterns": ["What's the weather like today?", "How's the weather?", "Is it going to rain today?"],
+            "responses": ["I'm sorry, I don't have access to real-time weather information.", "You can check a weather website for the latest updates."]
+        },
+        {
+            "tag": "thanks",
+            "description": "Expressing gratitude",
+            "patterns": ["Thank you", "Thanks a lot", "I appreciate it"],
+            "responses": ["You're welcome!", "No problem!", "Anytime!"]
+        }
+    ]
+}
