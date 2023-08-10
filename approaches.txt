@@ -1,0 +1,93 @@
+Certainly! Here are code examples for three different approaches using word embedding, word embedding averaging, and word2vec + cosine similarity. I'll also provide explanations for each approach.
+
+**Approach 1: Word Embedding**
+
+This approach involves converting words into vector representations (embeddings) and computing the cosine similarity between the user input and intent patterns.
+
+```python
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+from gensim.models import KeyedVectors
+
+# Load pre-trained word embeddings model (e.g., Word2Vec or GloVe)
+word_embeddings_model = KeyedVectors.load_word2vec_format("path/to/word_embeddings.bin", binary=True)
+
+# Sample intents and user input
+intents = [...]
+user_input = "Hello, how are you?"
+
+# Calculate embeddings and cosine similarity
+user_embedding = np.mean([word_embeddings_model[word] for word in user_input.split() if word in word_embeddings_model], axis=0)
+intent_embeddings = []
+for intent in intents:
+    intent_embedding = np.mean([word_embeddings_model[word] for word in intent["patterns"] if word in word_embeddings_model], axis=0)
+    intent_embeddings.append(intent_embedding)
+similarities = cosine_similarity([user_embedding], intent_embeddings)
+intent_index = np.argmax(similarities)
+response = intents[intent_index]["responses"][0]
+print(response)
+```
+
+**Approach 2: Word Embedding Averaging**
+
+In this approach, the word embeddings of individual words in sentences are averaged to get a sentence-level embedding.
+
+```python
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+from gensim.models import KeyedVectors
+
+# Load pre-trained word embeddings model
+word_embeddings_model = KeyedVectors.load_word2vec_format("path/to/word_embeddings.bin", binary=True)
+
+# Sample intents and user input
+intents = [...]
+user_input = "Hello, how are you?"
+
+# Calculate embeddings and cosine similarity
+def calculate_sentence_embedding(words, model):
+    return np.mean([model[word] for word in words if word in model], axis=0)
+
+user_sentence_embedding = calculate_sentence_embedding(user_input.split(), word_embeddings_model)
+intent_embeddings = [calculate_sentence_embedding(intent["patterns"], word_embeddings_model) for intent in intents]
+similarities = cosine_similarity([user_sentence_embedding], intent_embeddings)
+intent_index = np.argmax(similarities)
+response = intents[intent_index]["responses"][0]
+print(response)
+```
+
+**Approach 3: Word2Vec + Cosine Similarity**
+
+This approach directly uses pre-trained word2vec word embeddings and computes the cosine similarity between the user input and intent patterns.
+
+```python
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+from gensim.models import KeyedVectors
+
+# Load pre-trained word2vec model
+word2vec_model = KeyedVectors.load_word2vec_format("path/to/word2vec_model.bin", binary=True)
+
+# Sample intents and user input
+intents = [...]
+user_input = "Hello, how are you?"
+
+# Calculate cosine similarities
+similarities = []
+for intent in intents:
+    similarity = np.dot(word2vec_model.wv[user_input], word2vec_model.wv[intent["patterns"]]) / (np.linalg.norm(word2vec_model.wv[user_input]) * np.linalg.norm(word2vec_model.wv[intent["patterns"]]))
+    similarities.append(similarity)
+intent_index = np.argmax(similarities)
+response = intents[intent_index]["responses"][0]
+print(response)
+```
+
+**Explanations:**
+
+- All three approaches leverage pre-trained word embeddings to convert words into vector representations.
+- Cosine similarity is used to measure the similarity between embeddings.
+- The intent with the highest similarity score is selected as the response.
+- The `word_embeddings_model` or `word2vec_model` should be replaced with your actual pre-trained word embeddings or word2vec model.
+- Adjust the paths and preprocessing based on your specific dataset and model.
+
+Remember to install the necessary libraries (gensim, numpy) and replace the file paths with the actual paths to your pre-trained models.
