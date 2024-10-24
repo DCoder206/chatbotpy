@@ -1,2 +1,2 @@
-# chatbotpy
-A chatbot made using python utilizing machine learning and natural language processing
+# Python Chatbot
+A healthcare chatbot made using python utilizing machine learning and natural language processing
